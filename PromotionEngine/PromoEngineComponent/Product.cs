@@ -1,6 +1,6 @@
 ﻿namespace PromoEngineComponent
 {
-    internal class Product
+    public class Product
     {
         public char SKUID { get; set; }
 

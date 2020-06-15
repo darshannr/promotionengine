@@ -31,11 +31,36 @@ namespace PromotionEngineTests
         [TestMethod]
         public void AddToCart()
         {
+            List<Product> productList = new List<Product>();
+            List<Promotion> promotionList = new List<Promotion>();
+            productList.Add(new Product { SKUID = 'A', Price = 50 });
+            productList.Add(new Product { SKUID = 'B', Price = 30 });
+            productList.Add(new Product { SKUID = 'C', Price = 20 });
+            productList.Add(new Product { SKUID = 'D', Price = 15 });
+
+            promotionList.Add(new Promotion { SKUID = 'A', Quantity = 3, Price = 130 });
+            promotionList.Add(new Promotion { SKUID = 'B', Quantity = 2, Price = 45 });
+            promotionList.Add(new Promotion { SKUID = 'C', Quantity = 1, Price = 30 });
+            promotionList.Add(new Promotion { SKUID = 'D', Quantity = 1, Price = 30 });
+
             CartComponent cart = new CartComponent();
-            Assert.AreEqual(true, cart.AddCart('A', 1));
-            Assert.AreEqual(true, cart.AddCart('B', 1));
-            Assert.AreEqual(true, cart.AddCart('C', 1));
-            Assert.AreEqual(100, cart.GetCartTotal());
+            Assert.AreEqual(true, cart.AddCart('A', 1, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('B', 1, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('C', 1, productList, promotionList));
+            Assert.AreEqual(100, cart.GetCartTotal(productList, promotionList));
+
+            cart = new CartComponent();
+            Assert.AreEqual(true, cart.AddCart('A', 5, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('B', 5, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('C', 1, productList, promotionList));
+            Assert.AreEqual(370, cart.GetCartTotal(productList, promotionList));
+
+            cart = new CartComponent();
+            Assert.AreEqual(true, cart.AddCart('A', 3, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('B', 5, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('C', 1, productList, promotionList));
+            Assert.AreEqual(true, cart.AddCart('D', 1, productList, promotionList));
+            Assert.AreEqual(280, cart.GetCartTotal(productList, promotionList));
         }
 
         //[TestMethod]
@@ -44,21 +69,6 @@ namespace PromotionEngineTests
         //    ProductComponent product = new ProductComponent();
         //    Assert.AreEqual(true, product.RemoveProduct('A'));
         //    Assert.AreEqual(true, product.AddProduct('A', 50));
-        //}
-
-        //[TestMethod]
-        //public void GetTotal()
-        //{
-        //    PromotionEngineComponent pec = new PromotionEngineComponent();
-        //    List<Cart> cartList = new List<Cart>();
-        //    cartList.Add(new Cart
-        //    {
-        //        SKUID = 'A',
-        //        Quantity = 1,
-        //        SKUPrice = 0
-        //    });
-        //    float result = pec.GetTotal();
-        //    Assert.Equals(result, GetTotal(cartList));
         //}
     }
 }
